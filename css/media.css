@@ -1,0 +1,48 @@
+@media only screen and (max-width: 992px) {
+   .info_tab {
+      font-size: 1.3em;
+      padding: 0.3em 0.5em;
+   }
+
+   .level_block {
+      width: 9rem;
+   }
+   
+}
+@media only screen and (max-width: 768px) {
+   .btn {
+      width: 11rem;
+   }
+   
+}
+
+@media only screen and (max-width: 700px) {
+   body {
+      flex-direction: column;
+      margin: 2rem;
+   }
+
+   #play-area {
+      max-width: 22.5rem;
+   }
+
+   aside {
+      display: none;
+   }
+
+   .mobile-btn {
+      display:block;
+   }
+
+   .btn {
+      width: 9rem;
+   }
+
+}
+
+@media only screen and (max-width: 500px) {
+   body {
+      margin: 1rem;
+   }
+
+}

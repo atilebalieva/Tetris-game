@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Tetris game</title>
+   <link rel="stylesheet" href="css/style.css">
+   <link rel="stylesheet" href="css/media.css">
+   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="css/normalize.css">
+</head>
+
+<body>
+   <main>
+      <div class="info_block flex_block">
+         <div class="info_tab level_block">
+            <p>Level: <span id="user-level">1000</span></p>
+            <p>Lines: <span id="user-lines">10</span></p>
+         </div>
+         <div class="info_tab next_block flex_block">
+            <p>Next:</p>
+            <p id="next-figure"></p>
+         </div>
+      </div>
+
+      <div id="play-area">
+         <!-- <svg width="382" height="700" id="play-rect">
+            <rect class="play-area-rect" style="fill:rgb(25, 25, 65);stroke-width:7;stroke: rgb(176, 216, 31)" />
+         </svg> -->
+      </div>
+   </main>
+   <aside>
+      <div class="top_info flex_block space_bottom">
+         <div class="login">
+            <p>Login</p>
+            <p>Register</p>
+         </div>
+         <div class="language">
+            <p>En</p>
+            <img src="images/global_blue.png" alt="globe">
+         </div>
+      </div>
+      <div class="main_btn flex_block space_bottom">
+         <button type="button" class="btn" id="play-button">Play</button>
+         <button type="button" class="btn" id="reset-button">Reset</button>
+         <button type="button" class="btn" id="pause-button">Pause</button>
+      </div>
+      <div class="table_info space_bottom">
+         <table class="space_bottom">
+            <thead>
+               <tr>
+                  <th>Rank</th>
+                  <th>User</th>
+                  <th>Level</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td>1</td>
+                  <td>Danial</td>
+                  <td>90</td>
+               </tr>
+               <tr>
+                  <td>2</td>
+                  <td>Anthony</td>
+                  <td>80</td>
+               </tr>
+               <tr>
+                  <td>3</td>
+                  <td>Cynthia</td>
+                  <td>65</td>
+               </tr>
+               <tr>
+                  <td>4</td>
+                  <td>Sarah</td>
+                  <td>60</td>
+               </tr>
+               <tr>
+                  <td>5</td>
+                  <td>Kim</td>
+                  <td>55</td>
+               </tr>
+               <tr>
+                  <td>6</td>
+                  <td>Kristin</td>
+                  <td>50</td>
+               </tr>
+               <tr>
+                  <td>7</td>
+                  <td>Marcia</td>
+                  <td>50</td>
+               </tr>
+               <tr>
+                  <td>8</td>
+                  <td>Eva</td>
+                  <td>45</td>
+               </tr>
+               <tr>
+                  <td>9</td>
+                  <td>Marc</td>
+                  <td>45</td>
+               </tr>
+               <tr>
+                  <td>10</td>
+                  <td>James</td>
+                  <td>40</td>
+               </tr>
+               <tr>
+                  <td>11</td>
+                  <td>Kyle</td>
+                  <td>40</td>
+               </tr>
+               <tr>
+                  <td>12</td>
+                  <td>Chris</td>
+                  <td>35</td>
+               </tr>
+               <tr>
+                  <td>13</td>
+                  <td>Alex</td>
+                  <td>35</td>
+               </tr>
+               <tr>
+                  <td>14</td>
+                  <td>Aidan</td>
+                  <td>20</td>
+               </tr>
+               <tr>
+                  <td>15</td>
+                  <td>Steve</td>
+                  <td>15</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div class="logo">
+         <a href="">Support author</a>
+         <p>Women who</p>
+         <span>Code</span>
+      </div>
+      <div class="feedback flex_block">
+         <div class="facebook">
+            <a href="">
+               <img src="images/facebook.png" alt="facebook">
+               <p>+115</p>
+            </a>
+         </div>
+         <div class="twitter">
+            <a href="">
+               <img src="images/twitter.png" alt="twitter">
+               <p>+86</p>
+            </a>
+         </div>
+         <div class="share">
+            <a href="">
+               <img src="images/share.png" alt="share">
+               <p>+230</p>
+            </a>
+         </div>
+      </div>
+      <div class="add_info flex_block">
+         <a href="">Help</a>
+         <a href="">Feedback</a>
+      </div>
+   </aside>
+   <div class="mobile-btn">
+      <div class="arrows">
+         <button class="arrow_btn up_arrow">
+            <img src="images/up-arrow.png" alt="up-arrow">
+         </button>
+         <div class="other_arrows flex_block">
+            <button class="arrow_btn">
+               <img src="images/left-arrow.png" alt="left-arrow">
+            </button>
+            <button class="arrow_btn">
+               <img src="images/down-arrow.png" alt="down-arrow">
+            </button>
+            <button class="arrow_btn">
+               <img src="images/right-arrow.png" alt="right-arrow">
+            </button>
+         </div>
+      </div>
+      <div class="info_btn flex_block">
+         <button type="button" class="btn" id="play-button">Play</button>
+         <button type="button" class="btn" id="reset-button">Reset</button>
+         <button type="button" class="btn" id="pause-button">Pause</button>
+
+      </div>
+   </div>
+   <script src="JS-part/js-part.js"></script>
+</body>
+
+</html>
