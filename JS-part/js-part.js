@@ -191,48 +191,47 @@ function handleKeyDown(e) {
 
 function handleArrowUp() {
   const positionCount = Object.keys(currentShape).length;
-
   currentPosition++;
-
   if (currentPosition > positionCount) {
     currentPosition = 1;
   }
 }
-// let changeRowPosition = 0;
-// let changeColumnPosition = 4;
 
 function handleArrowDown() {
   changeRowPosition++;
 }
 
 function handleArrowLeft() {
-  // if()
   changeColumnPosition--;
 }
 
 function handleArrowRight() {
   changeColumnPosition++;
-  log(currentShape[1][0]);
-  // if (currentShape[1][0].length < 5) {
-  //   currentShape[1][0].length;
-  //   changeColumnPosition++;
-  //   // modelArray[changeRowPosition + i][columnPosition + j] = shape[i][j];
-  // }
 }
 
 function copyCurrentShapeToModelArray() {
   cleanModelArray();
-  const shape = currentShape[currentPosition];
 
-  let columnPosition = modelArray[0].length - shape[0].length;
-  let rowPosition = modelArray.length - shape.length;
-  // let changeRowPosition = 0;
-  // let changeColumnPosition = 4;
+  const shape = currentShape[currentPosition];
+  const widthOfThePlayArea = shape[0].length;
+  const heightOfThePlayArea = shape.length;
+
+  if (changeColumnPosition + widthOfThePlayArea > 10) {
+    changeColumnPosition = 10 - widthOfThePlayArea;
+  }
+
+  if (changeColumnPosition - widthOfThePlayArea < 0) {
+    changeColumnPosition = 0;
+  }
+
+  if (changeRowPosition + heightOfThePlayArea > 20) {
+    changeRowPosition = 20 - heightOfThePlayArea;
+  }
+
   for (let i = 0; i < shape.length; i++) {
     for (let j = 0; j < shape[i].length; j++) {
       modelArray[changeRowPosition + i][changeColumnPosition + j] = shape[i][j];
     }
-
     refreshDivArray();
   }
 }
