@@ -192,6 +192,7 @@ function handleKeyDown(e) {
 function handleArrowUp() {
   const positionCount = Object.keys(currentShape).length;
   currentPosition++;
+
   if (currentPosition > positionCount) {
     currentPosition = 1;
   }
@@ -202,7 +203,9 @@ function handleArrowDown() {
 }
 
 function handleArrowLeft() {
-  changeColumnPosition--;
+  if (changeColumnPosition > 0) {
+    changeColumnPosition--;
+  }
 }
 
 function handleArrowRight() {
@@ -218,10 +221,6 @@ function copyCurrentShapeToModelArray() {
 
   if (changeColumnPosition + widthOfThePlayArea > 10) {
     changeColumnPosition = 10 - widthOfThePlayArea;
-  }
-
-  if (changeColumnPosition - widthOfThePlayArea < 0) {
-    changeColumnPosition = 0;
   }
 
   if (changeRowPosition + heightOfThePlayArea > 20) {
