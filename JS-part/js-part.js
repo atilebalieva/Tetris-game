@@ -12,9 +12,6 @@ let currentPosition = 1;
 let changeRowPosition = 0;
 let changeColumnPosition = 4;
 
-let randomRow = Math.floor(Math.random() * 17);
-let randomColumn = Math.floor(Math.random() * 7);
-log(randomColumn);
 const divArray = new Array(20);
 
 const modelArray = [
@@ -215,19 +212,29 @@ function handleArrowLeft() {
 
 function handleArrowRight() {
   changeColumnPosition++;
+  log(currentShape[1][0]);
+  // if (currentShape[1][0].length < 5) {
+  //   currentShape[1][0].length;
+  //   changeColumnPosition++;
+  //   // modelArray[changeRowPosition + i][columnPosition + j] = shape[i][j];
+  // }
 }
 
 function copyCurrentShapeToModelArray() {
   cleanModelArray();
   const shape = currentShape[currentPosition];
 
+  let columnPosition = modelArray[0].length - shape[0].length;
+  let rowPosition = modelArray.length - shape.length;
+  // let changeRowPosition = 0;
+  // let changeColumnPosition = 4;
   for (let i = 0; i < shape.length; i++) {
     for (let j = 0; j < shape[i].length; j++) {
-      modelArray[16 + i][8 + j] = shape[i][j];
+      modelArray[changeRowPosition + i][changeColumnPosition + j] = shape[i][j];
     }
-  }
 
-  refreshDivArray();
+    refreshDivArray();
+  }
 }
 
 playButton.addEventListener("click", () => {
