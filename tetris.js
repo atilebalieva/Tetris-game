@@ -5,6 +5,8 @@ function log(func) {
 const playArea = document.getElementById("play-area");
 const defaultColor = "rgb(25, 25, 65)";
 const playButton = document.getElementById("play-button");
+const pauseButton = document.getElementById("pause-button");
+let pause = false;
 
 let currentShape = null;
 let currentPosition = 1;
@@ -124,7 +126,6 @@ for (let i = 0; i < divArray.length; i++) {
     return el;
   });
 }
-let color = random_bg_color();
 
 function refreshDivArray() {
   for (let i = 0; i < modelArray.length; i++) {
@@ -158,6 +159,8 @@ function random_bg_color() {
   return "rgb(" + x + "," + y + "," + z + ")";
 }
 
+let color = random_bg_color();
+
 function setCurrentShape() {
   let getKeysInAllShapes = Object.keys(allShapes);
   let randomKeys =
@@ -166,6 +169,9 @@ function setCurrentShape() {
 }
 
 window.addEventListener("keydown", (e) => {
+  if (pause) {
+    return;
+  }
   handleKeyDown(e);
 });
 
@@ -199,6 +205,17 @@ function handleArrowUp() {
 
 function handleArrowDown() {
   changeRowPosition++;
+
+  const shape = currentShape[currentPosition];
+  log(shape);
+
+  const heightOfTheShape = shape.length;
+
+  if (changeRowPosition + heightOfTheShape > 20) {
+    changeRowPosition = 20 - heightOfTheShape;
+  }
+
+  log(changeRowPosition);
 }
 
 function handleArrowLeft() {
@@ -215,15 +232,16 @@ function copyCurrentShapeToModelArray() {
   cleanModelArray();
 
   const shape = currentShape[currentPosition];
-  const widthOfThePlayArea = shape[0].length;
-  const heightOfThePlayArea = shape.length;
+  log(shape);
+  const widthOfTheShape = shape[0].length;
+  const heightOfTheShape = shape.length;
 
-  if (changeColumnPosition + widthOfThePlayArea > 10) {
-    changeColumnPosition = 10 - widthOfThePlayArea;
+  if (changeColumnPosition + widthOfTheShape > 10) {
+    changeColumnPosition = 10 - widthOfTheShape;
   }
 
-  if (changeRowPosition + heightOfThePlayArea > 20) {
-    changeRowPosition = 20 - heightOfThePlayArea;
+  if (changeRowPosition + heightOfTheShape > 20) {
+    changeRowPosition = 20 - heightOfTheShape;
   }
 
   for (let i = 0; i < shape.length; i++) {
@@ -241,6 +259,19 @@ playButton.addEventListener("click", () => {
 function newShapeOnThePlayArea() {
   setCurrentShape();
   copyCurrentShapeToModelArray();
+  handleTimer();
+}
+
+pauseButton.addEventListener("click", () => (pause = !pause));
+
+function handleTimer() {
+  setInterval(() => {
+    if (pause) {
+      return;
+    }
+    handleArrowDown();
+    copyCurrentShapeToModelArray();
+  }, 1000);
 }
 
 function reachTheBottom() {}
