@@ -5,7 +5,7 @@ function log(func) {
 const playArea = document.getElementById("play-area");
 const defaultColor = "rgb(25, 25, 65)";
 const playButton = document.getElementById("play-button");
-const pauseButton = document.getElementById("pause");
+const pauseButton = document.getElementById("pause-button");
 let pause = false;
 
 let currentShape = null;
