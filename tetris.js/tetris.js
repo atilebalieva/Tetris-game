@@ -124,10 +124,9 @@ for (let i = 0; i < divArray.length; i++) {
     return el;
   });
 }
+let color = random_bg_color();
 
 function refreshDivArray() {
-  let color = random_bg_color();
-
   for (let i = 0; i < modelArray.length; i++) {
     for (let j = 0; j < modelArray[i].length; j++) {
       if (modelArray[i][j] === "" || modelArray[i][j] === 0) {
@@ -236,6 +235,12 @@ function copyCurrentShapeToModelArray() {
 }
 
 playButton.addEventListener("click", () => {
+  newShapeOnThePlayArea();
+});
+
+function newShapeOnThePlayArea() {
   setCurrentShape();
   copyCurrentShapeToModelArray();
-});
+}
+
+function reachTheBottom() {}
