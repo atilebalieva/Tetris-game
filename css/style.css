@@ -85,13 +85,16 @@ tr, th, td,
 .next_block {
    align-items: center;
    margin-left: 1.6rem;
+   
 }
 
 #next-figure {
-   background: url(../images/next-figure-bg.png) no-repeat 100% 0%/cover;
-   width: 6rem;
-   height: 5rem;
-   margin-left: 0.7rem;
+   margin-left: 5px;
+   width: 62px;
+   display: flex;
+   flex-wrap: wrap;
+   border-top: 0.5px solid #3cb9eb;;
+   border-right: 0.5px solid #3cb9eb;;
 }
 
 #play-area {
@@ -295,4 +298,13 @@ td:hover {
    width: 30.6px;
    height: 30.6px;
    align-content: stretch;
+}
+
+.nextCellStyle {
+   border-left: 0.5px solid;
+   border-bottom: 0.5px solid;
+   border-color: #3cb9eb;
+   width: 15px;
+   height: 15px;
+   /* align-content: stretch; */
 }

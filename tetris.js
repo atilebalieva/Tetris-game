@@ -6,6 +6,8 @@ const playArea = document.getElementById("play-area");
 const defaultColor = "rgb(25, 25, 65)";
 const playButton = document.getElementById("play-button");
 const pauseButton = document.getElementById("pause-button");
+const nextBlock = document.getElementById("next-figure");
+
 let pause = false;
 
 let currentShape = null;
@@ -127,6 +129,21 @@ for (let i = 0; i < divArray.length; i++) {
   });
 }
 
+// const nextDivArr = new Array(4);
+
+// function createNewDivCellNextBlock() {
+//   let newDiv = document.createElement("div");
+//   newDiv.classList.add("nextCellStyle");
+//   return nextBlock.appendChild(newDiv);
+// }
+
+// for (let i = 0; i < nextDivArr.length; i++) {
+//   nextDivArr[i] = Array.from({ length: 4 }).map(function (el) {
+//     el = createNewDivCellNextBlock();
+//     return el;
+//   });
+// }
+
 function refreshDivArray() {
   for (let i = 0; i < modelArray.length; i++) {
     for (let j = 0; j < modelArray[i].length; j++) {
@@ -145,6 +162,9 @@ function refreshDivArray() {
 function cleanModelArray() {
   for (let i = 0; i < modelArray.length; i++) {
     for (let j = 0; j < modelArray[i].length; j++) {
+      if (modelArray[i][j] === "+") {
+        modelArray[i][j] = "+";
+      }
       if (modelArray[i][j] === 1) {
         modelArray[i][j] = "";
       }
@@ -182,7 +202,6 @@ function handleKeyDown(e) {
   }
   if (e.code === "ArrowDown") {
     handleArrowDown();
-    copyCurrentShapeToModelArray();
   }
   if (e.code === "ArrowLeft") {
     handleArrowLeft();
@@ -204,18 +223,37 @@ function handleArrowUp() {
 }
 
 function handleArrowDown() {
-  changeRowPosition++;
-
-  const shape = currentShape[currentPosition];
-  log(shape);
-
-  const heightOfTheShape = shape.length;
-
-  if (changeRowPosition + heightOfTheShape > 20) {
-    changeRowPosition = 20 - heightOfTheShape;
+  if (pause) {
+    return;
   }
 
-  log(changeRowPosition);
+  const shape = currentShape[currentPosition];
+  const heightOfTheShape = shape.length;
+
+  if (changeRowPosition + heightOfTheShape < 20) {
+    changeRowPosition++;
+    copyCurrentShapeToModelArray();
+    log(changeRowPosition);
+  } else {
+    safePositionOfShape(shape);
+    log(modelArray);
+    changeRowPosition = 0;
+    changeColumnPosition = 4;
+    newShapeOnThePlayArea();
+
+    // newShapeOnThePlayArea();
+    return;
+  }
+}
+
+function safePositionOfShape(shape) {
+  for (let i = 0; i < shape.length; i++) {
+    for (let j = 0; j < shape[i].length; j++) {
+      if (modelArray[i][j] === 1) {
+        modelArray[i][j] = "+";
+      }
+    }
+  }
 }
 
 function handleArrowLeft() {
@@ -232,7 +270,6 @@ function copyCurrentShapeToModelArray() {
   cleanModelArray();
 
   const shape = currentShape[currentPosition];
-  log(shape);
   const widthOfTheShape = shape[0].length;
   const heightOfTheShape = shape.length;
 
@@ -254,23 +291,19 @@ function copyCurrentShapeToModelArray() {
 
 playButton.addEventListener("click", () => {
   newShapeOnThePlayArea();
+  handleTimer();
 });
 
 function newShapeOnThePlayArea() {
   setCurrentShape();
   copyCurrentShapeToModelArray();
-  handleTimer();
 }
 
 pauseButton.addEventListener("click", () => (pause = !pause));
 
 function handleTimer() {
   setInterval(() => {
-    if (pause) {
-      return;
-    }
     handleArrowDown();
-    copyCurrentShapeToModelArray();
   }, 1000);
 }
 
