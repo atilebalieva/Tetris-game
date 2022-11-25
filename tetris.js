@@ -129,20 +129,20 @@ for (let i = 0; i < divArray.length; i++) {
   });
 }
 
-// const nextDivArr = new Array(4);
+const nextDivArr = new Array(4);
 
-// function createNewDivCellNextBlock() {
-//   let newDiv = document.createElement("div");
-//   newDiv.classList.add("nextCellStyle");
-//   return nextBlock.appendChild(newDiv);
-// }
+function createNewDivCellNextBlock() {
+  let newDiv = document.createElement("div");
+  newDiv.classList.add("nextCellStyle");
+  return nextBlock.appendChild(newDiv);
+}
 
-// for (let i = 0; i < nextDivArr.length; i++) {
-//   nextDivArr[i] = Array.from({ length: 4 }).map(function (el) {
-//     el = createNewDivCellNextBlock();
-//     return el;
-//   });
-// }
+for (let i = 0; i < nextDivArr.length; i++) {
+  nextDivArr[i] = Array.from({ length: 4 }).map(function (el) {
+    el = createNewDivCellNextBlock();
+    return el;
+  });
+}
 
 function refreshDivArray() {
   for (let i = 0; i < modelArray.length; i++) {
@@ -152,6 +152,8 @@ function refreshDivArray() {
       } else if (color === defaultColor) {
         color = "green";
         divArray[i][j].style.background = color;
+      } else if (modelArray[i][j] === "+") {
+        divArray[i][j].style.background = "rgb(164, 35, 123)";
       } else {
         divArray[i][j].style.background = color;
       }
@@ -233,24 +235,20 @@ function handleArrowDown() {
   if (changeRowPosition + heightOfTheShape < 20) {
     changeRowPosition++;
     copyCurrentShapeToModelArray();
-    log(changeRowPosition);
   } else {
     safePositionOfShape(shape);
-    log(modelArray);
     changeRowPosition = 0;
     changeColumnPosition = 4;
     newShapeOnThePlayArea();
-
-    // newShapeOnThePlayArea();
-    return;
   }
 }
 
 function safePositionOfShape(shape) {
-  for (let i = 0; i < shape.length; i++) {
-    for (let j = 0; j < shape[i].length; j++) {
+  for (let i = 0; i < modelArray.length; i++) {
+    for (let j = 0; j < modelArray[i].length; j++) {
       if (modelArray[i][j] === 1) {
         modelArray[i][j] = "+";
+        log(true);
       }
     }
   }
@@ -306,5 +304,3 @@ function handleTimer() {
     handleArrowDown();
   }, 1000);
 }
-
-function reachTheBottom() {}
