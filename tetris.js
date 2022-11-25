@@ -1,5 +1,3 @@
-console.log('TEST');
-
 function log(func) {
   console.log(func);
 }
@@ -15,8 +13,8 @@ let pause = false;
 let currentShape = null;
 let currentPosition = 1;
 
-let changeRowPosition = 0;
-let changeColumnPosition = 4;
+let currentRow = 0;
+let currentColumn = 4;
 
 const divArray = new Array(20);
 
@@ -205,7 +203,7 @@ function handleKeyDown(e) {
     copyCurrentShapeToModelArray();
   }
   if (e.code === "ArrowDown") {
-    handleArrowDown();
+    moveDown();
   }
   if (e.code === "ArrowLeft") {
     handleArrowLeft();
@@ -226,44 +224,64 @@ function handleArrowUp() {
   }
 }
 
-function handleArrowDown() {
+function moveDown() {
   if (pause) {
     return;
   }
 
-  const shape = currentShape[currentPosition];
-  const heightOfTheShape = shape.length;
-
-  if (changeRowPosition + heightOfTheShape < 20) {
-    changeRowPosition++;
+  if (canMoveDown()) {
+    currentRow++;
     copyCurrentShapeToModelArray();
   } else {
-    safePositionOfShape(shape);
-    changeRowPosition = 0;
-    changeColumnPosition = 4;
+    safePositionOfShape();
+    currentRow = 0;
+    currentColumn = 4;
     newShapeOnThePlayArea();
   }
 }
 
-function safePositionOfShape(shape) {
+function canMoveDown() {
+  const shape = currentShape[currentPosition];
+  const height = shape.length;
+  const width = shape[0].length;
+
+  if (currentRow + height >= 20) {
+    return false;
+  }
+
+  for (let i = 0; i < height; i++) {
+    for (let j = 0; j < width; j++) {
+      if (
+        shape[i][j] === 1 &&
+        modelArray[currentRow + i + 1][currentColumn + j] === "+"
+      ) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function safePositionOfShape() {
   for (let i = 0; i < modelArray.length; i++) {
     for (let j = 0; j < modelArray[i].length; j++) {
       if (modelArray[i][j] === 1) {
         modelArray[i][j] = "+";
         log(true);
+        log(modelArray);
       }
     }
   }
 }
 
 function handleArrowLeft() {
-  if (changeColumnPosition > 0) {
-    changeColumnPosition--;
+  if (currentColumn > 0) {
+    currentColumn--;
   }
 }
 
 function handleArrowRight() {
-  changeColumnPosition++;
+  currentColumn++;
 }
 
 function copyCurrentShapeToModelArray() {
@@ -273,17 +291,17 @@ function copyCurrentShapeToModelArray() {
   const widthOfTheShape = shape[0].length;
   const heightOfTheShape = shape.length;
 
-  if (changeColumnPosition + widthOfTheShape > 10) {
-    changeColumnPosition = 10 - widthOfTheShape;
+  if (currentColumn + widthOfTheShape > 10) {
+    currentColumn = 10 - widthOfTheShape;
   }
 
-  if (changeRowPosition + heightOfTheShape > 20) {
-    changeRowPosition = 20 - heightOfTheShape;
+  if (currentRow + heightOfTheShape > 20) {
+    currentRow = 20 - heightOfTheShape;
   }
 
   for (let i = 0; i < shape.length; i++) {
     for (let j = 0; j < shape[i].length; j++) {
-      modelArray[changeRowPosition + i][changeColumnPosition + j] = shape[i][j];
+      modelArray[currentRow + i][currentColumn + j] = shape[i][j];
     }
     refreshDivArray();
   }
@@ -303,6 +321,6 @@ pauseButton.addEventListener("click", () => (pause = !pause));
 
 function handleTimer() {
   setInterval(() => {
-    handleArrowDown();
+    moveDown();
   }, 1000);
 }
