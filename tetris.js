@@ -1,3 +1,5 @@
+console.log('TEST');
+
 function log(func) {
   console.log(func);
 }
