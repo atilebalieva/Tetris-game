@@ -200,28 +200,35 @@ window.addEventListener("keydown", (e) => {
 function handleKeyDown(e) {
   if (e.code === "ArrowUp") {
     handleArrowUp();
-    copyCurrentShapeToModelArray();
   }
   if (e.code === "ArrowDown") {
     moveDown();
   }
   if (e.code === "ArrowLeft") {
     handleArrowLeft();
-    copyCurrentShapeToModelArray();
   }
   if (e.code === "ArrowRight") {
     handleArrowRight();
-    copyCurrentShapeToModelArray();
   }
 }
 
 function handleArrowUp() {
-  const positionCount = Object.keys(currentShape).length;
+  const positionCount = Object.keys(currentShape).length; //4
+
+  log("Length of Shape " + positionCount);
+
+  log("handleArrowUp  before ++ " + currentPosition);
   currentPosition++;
+
+  log("handleArrowUp after ++ " + currentPosition);
 
   if (currentPosition > positionCount) {
     currentPosition = 1;
   }
+
+  log("handleArrowUp konechnyi " + currentPosition); //2
+
+  copyCurrentShapeToModelArray();
 }
 
 function moveDown() {
@@ -236,6 +243,7 @@ function moveDown() {
     safePositionOfShape();
     currentRow = 0;
     currentColumn = 4;
+    currentPosition = 1;
     newShapeOnThePlayArea();
   }
 }
@@ -267,8 +275,6 @@ function safePositionOfShape() {
     for (let j = 0; j < modelArray[i].length; j++) {
       if (modelArray[i][j] === 1) {
         modelArray[i][j] = "+";
-        log(true);
-        log(modelArray);
       }
     }
   }
@@ -278,16 +284,20 @@ function handleArrowLeft() {
   if (currentColumn > 0) {
     currentColumn--;
   }
+  copyCurrentShapeToModelArray();
 }
 
 function handleArrowRight() {
   currentColumn++;
+  copyCurrentShapeToModelArray();
 }
 
 function copyCurrentShapeToModelArray() {
   cleanModelArray();
 
+  log("currentPosition " + currentPosition);
   const shape = currentShape[currentPosition];
+
   const widthOfTheShape = shape[0].length;
   const heightOfTheShape = shape.length;
 
