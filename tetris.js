@@ -7,7 +7,6 @@ const defaultColor = "rgb(25, 25, 65)";
 const playButton = document.getElementById("play-button");
 const pauseButton = document.getElementById("pause-button");
 const nextBlock = document.getElementById("next-figure");
-
 let pause = false;
 
 let currentShape = null;
@@ -16,7 +15,17 @@ let currentPosition = 1;
 let currentRow = 0;
 let currentColumn = 4;
 
-const divArray = new Array(20);
+let timerInterval = null;
+let paused = false;
+
+let color = null;
+
+function random_bg_color() {
+  let x = Math.floor(Math.random() * 256);
+  let y = Math.floor(Math.random() * 256);
+  let z = Math.floor(Math.random() * 256);
+  return "rgb(" + x + "," + y + "," + z + ")";
+}
 
 const modelArray = [
   ["", "", "", "", "", "", "", "", "", ""],
@@ -116,43 +125,68 @@ const allShapes = {
   },
 };
 
+function setCurrentShape() {
+  let getKeysInAllShapes = Object.keys(allShapes);
+  let randomKeys =
+    getKeysInAllShapes[
+      Math.floor(Math.random() * Object.keys(allShapes).length)
+    ];
+  currentShape = allShapes[randomKeys];
+}
+
 function createNewDivCell() {
   let newDiv = document.createElement("div");
   newDiv.classList.add("cellStyle");
   return playArea.appendChild(newDiv);
 }
 
-for (let i = 0; i < divArray.length; i++) {
-  divArray[i] = Array.from({ length: 10 }).map(function (el) {
-    el = createNewDivCell();
-    return el;
-  });
+const divArray = new Array(20);
+
+function createDivArray() {
+  for (let i = 0; i < divArray.length; i++) {
+    divArray[i] = Array.from({ length: 10 }).map(function (el) {
+      el = createNewDivCell();
+      return el;
+    });
+  }
 }
+createDivArray();
 
-const nextDivArr = new Array(4);
+const nextShapeArr = new Array(5);
 
-function createNewDivCellNextBlock() {
+function createNewDivCellNextShape() {
   let newDiv = document.createElement("div");
   newDiv.classList.add("nextCellStyle");
   return nextBlock.appendChild(newDiv);
 }
 
-for (let i = 0; i < nextDivArr.length; i++) {
-  nextDivArr[i] = Array.from({ length: 4 }).map(function (el) {
-    el = createNewDivCellNextBlock();
-    return el;
-  });
+function createArrayNextShape() {
+  for (let i = 0; i < nextShapeArr.length; i++) {
+    nextShapeArr[i] = Array.from({ length: 5 }).map(function (el) {
+      el = createNewDivCellNextShape();
+      return el;
+    });
+  }
 }
+createArrayNextShape();
 
-function refreshDivArray() {
-  for (let i = 0; i < modelArray.length; i++) {
-    for (let j = 0; j < modelArray[i].length; j++) {
-      if (modelArray[i][j] === "" || modelArray[i][j] === 0) {
+const modelArrayNextShape = [
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+];
+
+function refreshDivArray(array) {
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array[i].length; j++) {
+      if (array[i][j] === "" || array[i][j] === 0) {
         divArray[i][j].style.background = defaultColor;
       } else if (color === defaultColor) {
         color = "green";
         divArray[i][j].style.background = color;
-      } else if (modelArray[i][j] === "+") {
+      } else if (array[i][j] === "+") {
         divArray[i][j].style.background = "rgb(164, 35, 123)";
       } else {
         divArray[i][j].style.background = color;
@@ -161,141 +195,35 @@ function refreshDivArray() {
   }
 }
 
-function cleanModelArray() {
-  for (let i = 0; i < modelArray.length; i++) {
-    for (let j = 0; j < modelArray[i].length; j++) {
-      if (modelArray[i][j] === "+") {
-        modelArray[i][j] = "+";
-      }
-      if (modelArray[i][j] === 1) {
-        modelArray[i][j] = "";
+function cleanArray(array) {
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array[i].length; j++) {
+      if (array[i][j] !== "+") {
+        array[i][j] = "";
       }
     }
   }
 }
 
-function random_bg_color() {
-  let x = Math.floor(Math.random() * 256);
-  let y = Math.floor(Math.random() * 256);
-  let z = Math.floor(Math.random() * 256);
-  return "rgb(" + x + "," + y + "," + z + ")";
-}
+function displayInNextBlock() {
+  cleanArray(modelArrayNextShape);
 
-let color = random_bg_color();
+  const figura = currentShape[1];
 
-function setCurrentShape() {
-  let getKeysInAllShapes = Object.keys(allShapes);
-  let randomKeys =
-    getKeysInAllShapes[Math.floor(Math.random() * getKeysInAllShapes.length)];
-  currentShape = allShapes[randomKeys];
-}
-
-window.addEventListener("keydown", (e) => {
-  if (pause) {
-    return;
-  }
-  handleKeyDown(e);
-});
-
-function handleKeyDown(e) {
-  if (e.code === "ArrowUp") {
-    handleArrowUp();
-  }
-  if (e.code === "ArrowDown") {
-    moveDown();
-  }
-  if (e.code === "ArrowLeft") {
-    handleArrowLeft();
-  }
-  if (e.code === "ArrowRight") {
-    handleArrowRight();
-  }
-}
-
-function handleArrowUp() {
-  const positionCount = Object.keys(currentShape).length; //4
-
-  log("Length of Shape " + positionCount);
-
-  log("handleArrowUp  before ++ " + currentPosition);
-  currentPosition++;
-
-  log("handleArrowUp after ++ " + currentPosition);
-
-  if (currentPosition > positionCount) {
-    currentPosition = 1;
-  }
-
-  log("handleArrowUp konechnyi " + currentPosition); //2
-
-  copyCurrentShapeToModelArray();
-}
-
-function moveDown() {
-  if (pause) {
-    return;
-  }
-
-  if (canMoveDown()) {
-    currentRow++;
-    copyCurrentShapeToModelArray();
-  } else {
-    safePositionOfShape();
-    currentRow = 0;
-    currentColumn = 4;
-    currentPosition = 1;
-    newShapeOnThePlayArea();
-  }
-}
-
-function canMoveDown() {
-  const shape = currentShape[currentPosition];
-  const height = shape.length;
-  const width = shape[0].length;
-
-  if (currentRow + height >= 20) {
-    return false;
-  }
-
-  for (let i = 0; i < height; i++) {
-    for (let j = 0; j < width; j++) {
-      if (
-        shape[i][j] === 1 &&
-        modelArray[currentRow + i + 1][currentColumn + j] === "+"
-      ) {
-        return false;
+  for (let i = 0; i < figura.length; i++) {
+    for (let j = 0; j < figura[i].length; j++) {
+      if (figura[i][j] == "1") {
+        modelArrayNextShape[1 + i][1 + j] = 1; //color
       }
     }
   }
-  return true;
-}
-
-function safePositionOfShape() {
-  for (let i = 0; i < modelArray.length; i++) {
-    for (let j = 0; j < modelArray[i].length; j++) {
-      if (modelArray[i][j] === 1) {
-        modelArray[i][j] = "+";
-      }
-    }
-  }
-}
-
-function handleArrowLeft() {
-  if (currentColumn > 0) {
-    currentColumn--;
-  }
-  copyCurrentShapeToModelArray();
-}
-
-function handleArrowRight() {
-  currentColumn++;
-  copyCurrentShapeToModelArray();
+  refreshDivArray(modelArrayNextShape);
+  return modelArrayNextShape;
 }
 
 function copyCurrentShapeToModelArray() {
-  cleanModelArray();
+  cleanArray(modelArray);
 
-  log("currentPosition " + currentPosition);
   const shape = currentShape[currentPosition];
 
   const widthOfTheShape = shape[0].length;
@@ -313,24 +241,179 @@ function copyCurrentShapeToModelArray() {
     for (let j = 0; j < shape[i].length; j++) {
       modelArray[currentRow + i][currentColumn + j] = shape[i][j];
     }
-    refreshDivArray();
+  }
+  refreshDivArray(modelArray);
+}
+
+window.addEventListener("keydown", (e) => {
+  if (paused) {
+    return;
+  }
+  handleKeyDown(e);
+});
+
+function handleKeyDown(e) {
+  if (e.code === "ArrowLeft") {
+    moveLeft();
+  }
+  if (e.code === "ArrowRight") {
+    moveRight();
+  }
+  if (e.code === "ArrowUp") {
+    handleArrowUp();
+  }
+  if (e.code === "ArrowDown") {
+    moveDown();
   }
 }
+
+function moveLeft() {
+  if (canMoveLeft()) {
+    currentColumn--;
+    copyCurrentShapeToModelArray();
+  }
+}
+
+function canMoveLeft() {
+  const shape = currentShape[currentPosition];
+  const widthOfTheShape = shape[0].length;
+  const heightOfTheShape = shape.length;
+
+  if (
+    currentColumn === 0 ||
+    // heightOfTheShape + currentRow > 20 ||
+    currentRow < 0
+  ) {
+    return false;
+  }
+
+  for (let i = 0; i < heightOfTheShape; i++) {
+    for (let j = 0; j < widthOfTheShape; j++) {
+      if (
+        shape[i][j] == 1 &&
+        modelArray[currentRow + i][currentColumn + j - 1] == "+"
+      ) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function moveRight() {
+  if (canMoveRight()) {
+    currentColumn++;
+    copyCurrentShapeToModelArray();
+  }
+}
+
+function canMoveRight() {
+  const shape = currentShape[currentPosition];
+  const widthOfTheShape = shape[0].length;
+  const heightOfTheShape = shape.length;
+
+  if (
+    currentColumn + widthOfTheShape > 10 ||
+    // currentRow + heightOfTheShape > 20 ||
+    currentRow < 0
+  ) {
+    return false;
+  }
+
+  for (let i = 0; i < heightOfTheShape; i++) {
+    for (let j = 0; j < widthOfTheShape; j++) {
+      if (
+        shape[i][j] == 1 &&
+        modelArray[currentRow + i][currentColumn + j + 1] == "+"
+      ) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function handleArrowUp() {
+  const positionCount = Object.keys(currentShape).length; //4
+
+  currentPosition++;
+
+  if (currentPosition > positionCount) {
+    currentPosition = 1;
+  }
+
+  copyCurrentShapeToModelArray();
+}
+
+function moveDown() {
+  if (pause) {
+    return;
+  }
+
+  if (canMoveDown()) {
+    currentRow++;
+    copyCurrentShapeToModelArray();
+    log(modelArray);
+  } else {
+    safePositionOfShape();
+    currentRow = 0;
+    currentColumn = 4;
+    currentPosition = 1;
+    setCurrentShape();
+    newShapeOnThePlayArea();
+    log(modelArray);
+  }
+}
+
+function canMoveDown() {
+  const shape = currentShape[currentPosition];
+  const widthOfTheShape = shape[0].length;
+  const heightOfTheShape = shape.length;
+  log(shape);
+  log(shape.length);
+
+  if (currentRow + heightOfTheShape >= 20) {
+    return false;
+  }
+
+  for (let i = 0; i < heightOfTheShape; i++) {
+    for (let j = 0; j < widthOfTheShape; j++) {
+      if (
+        shape[i][j] == 1 &&
+        modelArray[currentRow + i + 1][currentColumn + j] == "+"
+      ) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+function safePositionOfShape() {
+  for (let i = 0; i < modelArray.length; i++) {
+    for (let j = 0; j < modelArray[i].length; j++) {
+      if (modelArray[i][j] == 1) {
+        modelArray[i][j] = "+";
+      }
+    }
+  }
+}
+
+function newShapeOnThePlayArea() {
+  color = random_bg_color();
+  setCurrentShape();
+  copyCurrentShapeToModelArray();
+}
+
+function handleTimer() {
+  if (timerInterval === null) {
+    timerInterval = setInterval(moveDown, 1000);
+  }
+}
+
+pauseButton.addEventListener("click", () => (pause = !pause));
 
 playButton.addEventListener("click", () => {
   newShapeOnThePlayArea();
   handleTimer();
 });
-
-function newShapeOnThePlayArea() {
-  setCurrentShape();
-  copyCurrentShapeToModelArray();
-}
-
-pauseButton.addEventListener("click", () => (pause = !pause));
-
-function handleTimer() {
-  setInterval(() => {
-    moveDown();
-  }, 1000);
-}
