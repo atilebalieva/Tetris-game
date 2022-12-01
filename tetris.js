@@ -27,29 +27,6 @@ function random_bg_color() {
   return "rgb(" + x + "," + y + "," + z + ")";
 }
 
-const modelArray = [
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-  ["", "", "", "", "", "", "", "", "", ""],
-];
-
 const allShapes = {
   L: {
     1: [
@@ -125,6 +102,38 @@ const allShapes = {
   },
 };
 
+////////////////////// Create cells on the page/////////////////////////////////////////
+const modelArray = [
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+  ["", "", "", "", "", "", "", "", "", ""],
+];
+
+const modelArrayNextShape = [
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+];
+
 function setCurrentShape() {
   let getKeysInAllShapes = Object.keys(allShapes);
   let randomKeys =
@@ -162,7 +171,7 @@ function createNewDivCellNextShape() {
 
 function createArrayNextShape() {
   for (let i = 0; i < nextShapeArr.length; i++) {
-    nextShapeArr[i] = Array.from({ length: 5 }).map(function (el) {
+    nextShapeArr[i] = Array.from({ length: 8 }).map(function (el) {
       el = createNewDivCellNextShape();
       return el;
     });
@@ -170,26 +179,20 @@ function createArrayNextShape() {
 }
 createArrayNextShape();
 
-const modelArrayNextShape = [
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-];
+///////////////////////////////////////////////////////////////////////////
 
-function refreshDivArray(array) {
+function refreshDivArray(array, arrayDiv) {
   for (let i = 0; i < array.length; i++) {
     for (let j = 0; j < array[i].length; j++) {
       if (array[i][j] === "" || array[i][j] === 0) {
-        divArray[i][j].style.background = defaultColor;
+        arrayDiv[i][j].style.background = defaultColor;
       } else if (color === defaultColor) {
         color = "green";
-        divArray[i][j].style.background = color;
+        arrayDiv[i][j].style.background = color;
       } else if (array[i][j] === "+") {
-        divArray[i][j].style.background = "rgb(164, 35, 123)";
+        arrayDiv[i][j].style.background = "rgb(164, 35, 123)";
       } else {
-        divArray[i][j].style.background = color;
+        arrayDiv[i][j].style.background = color;
       }
     }
   }
@@ -204,20 +207,21 @@ function cleanArray(array) {
     }
   }
 }
+setCurrentShape();
 
 function displayInNextBlock() {
   cleanArray(modelArrayNextShape);
 
-  const figura = currentShape[1];
+  const shape = currentShape[1];
 
-  for (let i = 0; i < figura.length; i++) {
-    for (let j = 0; j < figura[i].length; j++) {
-      if (figura[i][j] == "1") {
-        modelArrayNextShape[1 + i][1 + j] = 1; //color
+  for (let i = 0; i < shape.length; i++) {
+    for (let j = 0; j < shape[i].length; j++) {
+      if (shape[i][j] == "1") {
+        modelArrayNextShape[1 + i][3 + j] = 1;
       }
     }
   }
-  refreshDivArray(modelArrayNextShape);
+  refreshDivArray(modelArrayNextShape, nextShapeArr);
   return modelArrayNextShape;
 }
 
@@ -242,7 +246,7 @@ function copyCurrentShapeToModelArray() {
       modelArray[currentRow + i][currentColumn + j] = shape[i][j];
     }
   }
-  refreshDivArray(modelArray);
+  refreshDivArray(modelArray, divArray);
 }
 
 window.addEventListener("keydown", (e) => {
@@ -279,11 +283,7 @@ function canMoveLeft() {
   const widthOfTheShape = shape[0].length;
   const heightOfTheShape = shape.length;
 
-  if (
-    currentColumn === 0 ||
-    // heightOfTheShape + currentRow > 20 ||
-    currentRow < 0
-  ) {
+  if (currentColumn === 0 || currentRow < 0) {
     return false;
   }
 
@@ -312,11 +312,7 @@ function canMoveRight() {
   const widthOfTheShape = shape[0].length;
   const heightOfTheShape = shape.length;
 
-  if (
-    currentColumn + widthOfTheShape > 10 ||
-    // currentRow + heightOfTheShape > 20 ||
-    currentRow < 0
-  ) {
+  if (currentColumn + widthOfTheShape > 10 || currentRow < 0) {
     return false;
   }
 
@@ -359,9 +355,7 @@ function moveDown() {
     currentRow = 0;
     currentColumn = 4;
     currentPosition = 1;
-    setCurrentShape();
     newShapeOnThePlayArea();
-    log(modelArray);
   }
 }
 

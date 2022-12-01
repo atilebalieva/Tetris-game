@@ -12,18 +12,8 @@ body {
    font-weight: bold;
    color: aliceblue;
    padding: 4rem;
-   display: flex;
-   justify-content: center;
    height: 100vh;
-   background: url(../images/background.jpeg) repeat-y 100% 0%/cover;
-}
-
-main {
-   height: 100%;
-} *
-
-.flex_block {
-   display: flex;
+   background: url(../images/background.jpeg) no-repeat 100% 0%/cover;
 }
 
 .space_bottom {
@@ -32,11 +22,9 @@ main {
 
 .info_block {
    margin-bottom: 1em;
-   /* max-height: 16%; */
 }
 
-.info_tab,
-aside,
+.user-info,
 .mobile-btn,
 #play-area{
    border: 5px solid rgb(176, 216, 31);
@@ -71,26 +59,21 @@ tr, th, td,
    display: inline-block;
 }
 
+.content {
+   display: flex;
+   height: 100%;
+}
+
 .info_tab {
+   border: 3px solid #349da5;
    font-size: 1.5em;
    text-transform: uppercase;
-   padding: 0.1em 0.5em;
-}
-
-.level_block p {
-   margin-top: 0.2em;
-   margin-bottom: 0.2em;
-}
-
-.next_block {
-   align-items: center;
-   margin-left: 1.6rem;
-   
+   text-align: center;
 }
 
 #next-figure {
-   margin-left: 5px;
-   width: 77px;
+   margin: 5px;
+   width: 161px;
    display: flex;
    flex-wrap: wrap;
    border-top: 0.5px solid #3cb9eb;;
@@ -99,7 +82,6 @@ tr, th, td,
 
 #play-area {
    max-width: 19.8rem;
-   /* min-height: 72vh; */
    display: inline-flex;
    flex-wrap: wrap;
 }
@@ -126,39 +108,43 @@ tr, th, td,
    stroke-width: 1.2;
 }
 
-aside {
-   min-width: 16rem;
+.user-info {
+   width: 13rem;
    height: 100%;
-   margin-left: 3rem;
+   margin-left: 1rem;
+   padding: 10px;
    display: flex;
    flex-direction: column;
    justify-content: space-between;
+
 }
 
-.top_info {
-   margin-top: 1rem;
+.next-shape {
+   border-bottom: 3px solid rgb(176, 216, 31) ;
 }
 
-.language {
-   align-self: center;
+.level-score {
+   margin-top: 5px;
+   border: 3px solid #349da5;
+   padding: 10px;
+   font-size: 25px;
 }
 
-.language img {
-   width: 17px;
-   height: 17px;
-}
+
 
 .main_btn {
    flex-direction: column;
+   margin-top: 20;
+
 }
 
 .btn {
-   background: rgb(164, 35, 123);
+   background: #9e3573;
    color: rgb(245, 237, 237);
    border: 2px solid rgb(225, 242, 39);
    padding: 0.5rem;
    font-size: 1em;
-   width: 13rem;
+   width: 11rem;
    font-weight: bold;
    text-transform: uppercase;
    border-radius: 10px;
@@ -304,7 +290,7 @@ td:hover {
    border-left: 0.5px solid;
    border-bottom: 0.5px solid;
    border-color: #3cb9eb;
-   width: 15px;
-   height: 15px;
+   width: 20px;
+   height: 20px;
    /* align-content: stretch; */
 }

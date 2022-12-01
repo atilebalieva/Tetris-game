@@ -13,32 +13,27 @@
 </head>
 
 <body>
-   <main>
-      <div class="info_block flex_block">
-         <div class="info_tab level_block">
-            <p>Level: <span id="user-level">1000</span></p>
-            <p>Lines: <span id="user-lines">10</span></p>
-         </div>
-         <div class="info_tab next_block flex_block">
-            <p>Next:</p>
-            <p id="next-figure"></p>
-         </div>
-      </div>
-
+   <div class="content">
       <div id="play-area"></div>
-   </main>
-   <aside>
-      <div class="main_btn flex_block space_bottom">
-         <button type="button" class="btn" id="play-button">Play</button>
-         <button type="button" class="btn" id="pause-button">Pause</button>
+      <div class="user-info">
+         <div class="info_tab">
+            <div class="next-shape">Next Shape</div>
+            <div id="next-figure"></div>
+         </div>
+         <div>
+            <div class="level-score">Level <span id="level"></span></div>
+            <div class="level-score">Score <span id="score"></span></div>
+         </div>
+         <div class="main_btn">
+            <button type="button" class="btn" id="play-button">Play</button>
+            <button type="button" class="btn" id="pause-button">Pause</button>
+         </div>
+         <div class="logo">
+            <p>Women who</p>
+            <span>Code</span>
+         </div>
       </div>
-      <div class="table_info space_bottom">
-      </div>
-      <div class="logo">
-         <p>Women who</p>
-         <span>Code</span>
-      </div>
-   </aside>
+   </div>
    <div class="mobile-btn">
       <div class="arrows">
          <button class="arrow_btn up_arrow">
