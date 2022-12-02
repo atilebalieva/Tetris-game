@@ -339,6 +339,8 @@ function handleArrowUp() {
 
   copyCurrentShapeToModelArray();
 }
+let score = 0;
+let level = 1;
 
 function moveDown() {
   if (pause) {
@@ -350,7 +352,18 @@ function moveDown() {
     copyCurrentShapeToModelArray();
   } else {
     safePositionOfShape();
-    removeBottomCells();
+    for (let i = 0; i < modelArray.length; i++) {
+      let count = 0;
+      for (let j = 0; j < modelArray[i].length; j++) {
+        if (modelArray[i][j] === "+") {
+          count++;
+        }
+      }
+      if (count === 10) {
+        modelArray.splice(i, 1);
+        modelArray.unshift(["", "", "", "", "", "", "", "", "", ""]);
+      }
+    }
     currentRow = 0;
     currentColumn = 4;
     currentPosition = 1;
@@ -403,37 +416,10 @@ function handleTimer() {
   }
 }
 
-let score = 0;
-let level = 1;
-
-function removeBottomCells() {
-  for (let i = 0; i < modelArray.length; i++) {
-    let count = 0;
-    for (let j = 0; j < modelArray[i].length; j++) {
-      if (modelArray[i][j] === "+") {
-        count++;
-      }
-    }
-    if (count === 10) {
-      score++;
-      if (score < 10) {
-        document.getElementById("score").innerHTML = score;
-      } else if (score === 10) {
-        level++;
-        score = 0;
-        document.getElementById("level").innerHTML = level;
-        document.getElementById("score").innerHTML = score;
-      }
-      modelArray.splice(i, 1);
-      modelArray.unshift(["", "", "", "", "", "", "", "", "", ""]);
-    }
-  }
-  return modelArray;
-}
-
 pauseButton.addEventListener("click", () => (pause = !pause));
 
 playButton.addEventListener("click", () => {
+  cleanArray(modelArray);
   newShapeOnThePlayArea();
   handleTimer();
 });
