@@ -232,17 +232,11 @@ function copyCurrentShapeToModelArray() {
   const widthOfTheShape = shape[0].length;
   const heightOfTheShape = shape.length;
 
-  if (currentColumn + widthOfTheShape > 10) {
-    currentColumn = 10 - widthOfTheShape;
-  }
-
-  if (currentRow + heightOfTheShape > 20) {
-    currentRow = 20 - heightOfTheShape;
-  }
-
   for (let i = 0; i < shape.length; i++) {
     for (let j = 0; j < shape[i].length; j++) {
-      modelArray[currentRow + i][currentColumn + j] = shape[i][j];
+      if (shape[i][j] === 1) {
+        modelArray[currentRow + i][currentColumn + j] = shape[i][j];
+      }
     }
   }
   refreshDivArray(modelArray, divArray);
@@ -341,6 +335,7 @@ function handleArrowUp() {
 }
 let score = 0;
 let level = 1;
+let nextNewShape = null;
 
 function moveDown() {
   if (pause) {
@@ -349,7 +344,7 @@ function moveDown() {
 
   if (canMoveDown()) {
     currentRow++;
-    copyCurrentShapeToModelArray();
+    copyCurrentShapeToModelArray(nextNewShape);
   } else {
     safePositionOfShape();
     for (let i = 0; i < modelArray.length; i++) {
@@ -367,7 +362,7 @@ function moveDown() {
     currentRow = 0;
     currentColumn = 4;
     currentPosition = 1;
-    newShapeOnThePlayArea();
+    newShape();
     displayInNextBlock();
   }
 }
@@ -377,9 +372,12 @@ function canMoveDown() {
   const widthOfTheShape = shape[0].length;
   const heightOfTheShape = shape.length;
 
-  if (currentRow + heightOfTheShape >= 20) {
+  if (currentRow + heightOfTheShape > 19) {
     return false;
   }
+  log(currentRow);
+  log(shape);
+  pa(modelArray, "modalArray");
 
   for (let i = 0; i < heightOfTheShape; i++) {
     for (let j = 0; j < widthOfTheShape; j++) {
@@ -394,6 +392,22 @@ function canMoveDown() {
   return true;
 }
 
+function pa(arr, str) {
+  if (str != undefined) console.log(str + ": ");
+
+  for (let i = 0; i < arr.length; i++) {
+    let s = "";
+    for (let j = 0; j < arr[i].length; j++) {
+      if (arr[i][j] === "" || arr[i][j] === " ") {
+        s += "_ ";
+      } else {
+        s += arr[i][j] + " ";
+      }
+    }
+    console.log(s);
+  }
+}
+
 function safePositionOfShape() {
   for (let i = 0; i < modelArray.length; i++) {
     for (let j = 0; j < modelArray[i].length; j++) {
@@ -404,10 +418,9 @@ function safePositionOfShape() {
   }
 }
 
-function newShapeOnThePlayArea() {
+function newShape() {
   color = random_bg_color();
   setCurrentShape();
-  copyCurrentShapeToModelArray();
 }
 
 function handleTimer() {
@@ -416,10 +429,16 @@ function handleTimer() {
   }
 }
 
+function newShapeOnThePlayArea() {
+  newShape();
+  copyCurrentShapeToModelArray();
+}
+
 pauseButton.addEventListener("click", () => (pause = !pause));
 
 playButton.addEventListener("click", () => {
-  cleanArray(modelArray);
   newShapeOnThePlayArea();
+  log();
+  displayInNextBlock(nextNewShape);
   handleTimer();
 });
