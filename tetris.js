@@ -2,6 +2,22 @@ function log(func) {
   console.log(func);
 }
 
+function pa(arr, str) {
+  if (str != undefined) console.log(str + ": ");
+
+  for (let i = 0; i < arr.length; i++) {
+    let s = "";
+    for (let j = 0; j < arr[i].length; j++) {
+      if (arr[i][j] === "" || arr[i][j] === " ") {
+        s += "_ ";
+      } else {
+        s += arr[i][j] + " ";
+      }
+    }
+    console.log(s);
+  }
+}
+
 const playArea = document.getElementById("play-area");
 const defaultColor = "rgb(25, 25, 65)";
 const playButton = document.getElementById("play-button");
@@ -181,6 +197,8 @@ createArrayNextShape();
 
 ///////////////////////////////////////////////////////////////////////////
 
+pauseButton.addEventListener("click", () => (pause = !pause));
+
 function refreshDivArray(array, arrayDiv) {
   for (let i = 0; i < array.length; i++) {
     for (let j = 0; j < array[i].length; j++) {
@@ -208,7 +226,8 @@ function cleanArray(array) {
   }
 }
 
-function displayInNextBlock() {
+function displayInNextBlock(currentShape) {
+  log(currentShape);
   cleanArray(modelArrayNextShape);
 
   const shape = currentShape[1];
@@ -231,6 +250,10 @@ function copyCurrentShapeToModelArray() {
 
   const widthOfTheShape = shape[0].length;
   const heightOfTheShape = shape.length;
+
+  if (widthOfTheShape + currentColumn > 10) {
+    currentColumn = 10 - widthOfTheShape;
+  }
 
   for (let i = 0; i < shape.length; i++) {
     for (let j = 0; j < shape[i].length; j++) {
@@ -305,7 +328,7 @@ function canMoveRight() {
   const widthOfTheShape = shape[0].length;
   const heightOfTheShape = shape.length;
 
-  if (currentColumn + widthOfTheShape > 10 || currentRow < 0) {
+  if (currentColumn + widthOfTheShape > 10) {
     return false;
   }
 
@@ -335,7 +358,6 @@ function handleArrowUp() {
 }
 let score = 0;
 let level = 1;
-let nextNewShape = null;
 
 function moveDown() {
   if (pause) {
@@ -344,7 +366,7 @@ function moveDown() {
 
   if (canMoveDown()) {
     currentRow++;
-    copyCurrentShapeToModelArray(nextNewShape);
+    copyCurrentShapeToModelArray();
   } else {
     safePositionOfShape();
     for (let i = 0; i < modelArray.length; i++) {
@@ -359,11 +381,12 @@ function moveDown() {
         modelArray.unshift(["", "", "", "", "", "", "", "", "", ""]);
       }
     }
+    setCurrentShape();
+    displayInNextBlock(currentShape);
+
     currentRow = 0;
     currentColumn = 4;
     currentPosition = 1;
-    newShape();
-    displayInNextBlock();
   }
 }
 
@@ -375,9 +398,6 @@ function canMoveDown() {
   if (currentRow + heightOfTheShape > 19) {
     return false;
   }
-  log(currentRow);
-  log(shape);
-  pa(modelArray, "modalArray");
 
   for (let i = 0; i < heightOfTheShape; i++) {
     for (let j = 0; j < widthOfTheShape; j++) {
@@ -390,22 +410,6 @@ function canMoveDown() {
     }
   }
   return true;
-}
-
-function pa(arr, str) {
-  if (str != undefined) console.log(str + ": ");
-
-  for (let i = 0; i < arr.length; i++) {
-    let s = "";
-    for (let j = 0; j < arr[i].length; j++) {
-      if (arr[i][j] === "" || arr[i][j] === " ") {
-        s += "_ ";
-      } else {
-        s += arr[i][j] + " ";
-      }
-    }
-    console.log(s);
-  }
 }
 
 function safePositionOfShape() {
@@ -434,11 +438,12 @@ function newShapeOnThePlayArea() {
   copyCurrentShapeToModelArray();
 }
 
-pauseButton.addEventListener("click", () => (pause = !pause));
+newShape();
 
 playButton.addEventListener("click", () => {
-  newShapeOnThePlayArea();
-  log();
-  displayInNextBlock(nextNewShape);
+  copyCurrentShapeToModelArray();
   handleTimer();
+
+  newShape();
+  displayInNextBlock(currentShape);
 });
