@@ -60,8 +60,8 @@ const allShapes = {
     ],
   },
   I: {
-    1: [[1, 1, 1, 1]],
-    2: [[1], [1], [1], [1]],
+    1: [[1], [1], [1], [1]],
+    2: [[1, 1, 1, 1]],
   },
   O: {
     1: [
@@ -161,7 +161,7 @@ function createDivArray() {
 }
 createDivArray();
 
-const nextShapeArr = new Array(5);
+const nextShapeArr = new Array(6);
 
 function createNewDivCellNextShape() {
   let newDiv = document.createElement("div");
@@ -207,7 +207,6 @@ function cleanArray(array) {
     }
   }
 }
-setCurrentShape();
 
 function displayInNextBlock() {
   cleanArray(modelArrayNextShape);
@@ -349,13 +348,14 @@ function moveDown() {
   if (canMoveDown()) {
     currentRow++;
     copyCurrentShapeToModelArray();
-    log(modelArray);
   } else {
     safePositionOfShape();
+    removeBottomCells();
     currentRow = 0;
     currentColumn = 4;
     currentPosition = 1;
     newShapeOnThePlayArea();
+    displayInNextBlock();
   }
 }
 
@@ -363,8 +363,6 @@ function canMoveDown() {
   const shape = currentShape[currentPosition];
   const widthOfTheShape = shape[0].length;
   const heightOfTheShape = shape.length;
-  log(shape);
-  log(shape.length);
 
   if (currentRow + heightOfTheShape >= 20) {
     return false;
@@ -403,6 +401,34 @@ function handleTimer() {
   if (timerInterval === null) {
     timerInterval = setInterval(moveDown, 1000);
   }
+}
+
+let score = 0;
+let level = 1;
+
+function removeBottomCells() {
+  for (let i = 0; i < modelArray.length; i++) {
+    let count = 0;
+    for (let j = 0; j < modelArray[i].length; j++) {
+      if (modelArray[i][j] === "+") {
+        count++;
+      }
+    }
+    if (count === 10) {
+      score++;
+      if (score < 10) {
+        document.getElementById("score").innerHTML = score;
+      } else if (score === 10) {
+        level++;
+        score = 0;
+        document.getElementById("level").innerHTML = level;
+        document.getElementById("score").innerHTML = score;
+      }
+      modelArray.splice(i, 1);
+      modelArray.unshift(["", "", "", "", "", "", "", "", "", ""]);
+    }
+  }
+  return modelArray;
 }
 
 pauseButton.addEventListener("click", () => (pause = !pause));
