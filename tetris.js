@@ -35,6 +35,7 @@ let timerInterval = null;
 let paused = false;
 
 let color = null;
+let nextShape = null;
 
 function random_bg_color() {
   let x = Math.floor(Math.random() * 256);
@@ -46,22 +47,42 @@ function random_bg_color() {
 const allShapes = {
   L: {
     1: [
+      [0, 0, 1],
+      [1, 1, 1],
+    ],
+    2: [
       [1, 0],
       [1, 0],
       [1, 1],
     ],
-    2: [
+    3: [
       [1, 1, 1],
       [1, 0, 0],
     ],
-    3: [
+    4: [
       [1, 1],
       [0, 1],
       [0, 1],
     ],
-    4: [
-      [0, 0, 1],
+  },
+  L2: {
+    1: [
+      [1, 0, 0],
       [1, 1, 1],
+    ],
+    2: [
+      [1, 1],
+      [1, 0],
+      [1, 0],
+    ],
+    3: [
+      [1, 1, 1],
+      [0, 0, 1],
+    ],
+    4: [
+      [0, 1],
+      [0, 1],
+      [1, 1],
     ],
   },
   Z: {
@@ -150,15 +171,6 @@ const modelArrayNextShape = [
   ["", "", "", "", ""],
 ];
 
-function setCurrentShape() {
-  let getKeysInAllShapes = Object.keys(allShapes);
-  let randomKeys =
-    getKeysInAllShapes[
-      Math.floor(Math.random() * Object.keys(allShapes).length)
-    ];
-  currentShape = allShapes[randomKeys];
-}
-
 function createNewDivCell() {
   let newDiv = document.createElement("div");
   newDiv.classList.add("cellStyle");
@@ -226,11 +238,11 @@ function cleanArray(array) {
   }
 }
 
-function displayInNextBlock(currentShape) {
+function displayInNextBlock() {
   log(currentShape);
   cleanArray(modelArrayNextShape);
 
-  const shape = currentShape[1];
+  const shape = nextShape[1];
 
   for (let i = 0; i < shape.length; i++) {
     for (let j = 0; j < shape[i].length; j++) {
@@ -381,12 +393,13 @@ function moveDown() {
         modelArray.unshift(["", "", "", "", "", "", "", "", "", ""]);
       }
     }
-    setCurrentShape();
-    displayInNextBlock(currentShape);
-
+    currentShape = nextShape;
     currentRow = 0;
     currentColumn = 4;
     currentPosition = 1;
+
+    nextShape = getRandomShape();
+    displayInNextBlock();
   }
 }
 
@@ -422,9 +435,20 @@ function safePositionOfShape() {
   }
 }
 
-function newShape() {
+function getRandomShape() {
   color = random_bg_color();
-  setCurrentShape();
+  let getKeysInAllShapes = Object.keys(allShapes);
+  let randomKeys =
+    getKeysInAllShapes[
+      Math.floor(Math.random() * Object.keys(allShapes).length)
+    ];
+
+  return allShapes[randomKeys];
+}
+
+function newShape() {
+  nextShape = getRandomShape();
+  currentShape = getRandomShape();
 }
 
 function handleTimer() {
@@ -436,14 +460,8 @@ function handleTimer() {
 function newShapeOnThePlayArea() {
   newShape();
   copyCurrentShapeToModelArray();
+  handleTimer();
+  displayInNextBlock();
 }
 
-newShape();
-
-playButton.addEventListener("click", () => {
-  copyCurrentShapeToModelArray();
-  handleTimer();
-
-  newShape();
-  displayInNextBlock(currentShape);
-});
+playButton.addEventListener("click", newShapeOnThePlayArea);
