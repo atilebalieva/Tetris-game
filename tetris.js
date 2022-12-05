@@ -239,7 +239,6 @@ function cleanArray(array) {
 }
 
 function displayInNextBlock() {
-  log(currentShape);
   cleanArray(modelArrayNextShape);
 
   const shape = nextShape[1];
@@ -389,8 +388,15 @@ function moveDown() {
         }
       }
       if (count === 10) {
+        score++;
+        document.getElementById("score").innerText = score;
         modelArray.splice(i, 1);
         modelArray.unshift(["", "", "", "", "", "", "", "", "", ""]);
+      }
+      if (score === 10) {
+        score = 0;
+        level++;
+        document.getElementById("level").innerText = level;
       }
     }
     currentShape = nextShape;
