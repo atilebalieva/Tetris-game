@@ -400,12 +400,31 @@ function moveDown() {
       }
     }
     currentShape = nextShape;
-    currentRow = 0;
-    currentColumn = 4;
-    currentPosition = 1;
 
     nextShape = getRandomShape();
     displayInNextBlock();
+
+    currentRow = 0;
+    currentColumn = 4;
+    currentPosition = 1;
+    gameOver();
+  }
+}
+
+function gameOver() {
+  const shape = currentShape[currentPosition];
+  const widthOfTheShape = shape[0].length;
+  const heightOfTheShape = shape.length;
+
+  for (let i = 0; i < heightOfTheShape.length; i++) {
+    for (let j = 0; j < widthOfTheShape[i].length; j++) {
+      if (modelArray[i][currentColumn + j] === "+" && shape[i][j] === "1") {
+        clearInterval(timerInterval);
+        document.getElementById("game-over").style.display = "block";
+        document.getElementById("result-level").innerText = level;
+        document.getElementById("result-score").innerText = score;
+      }
+    }
   }
 }
 
@@ -466,8 +485,8 @@ function handleTimer() {
 function newShapeOnThePlayArea() {
   newShape();
   copyCurrentShapeToModelArray();
-  handleTimer();
   displayInNextBlock();
+  handleTimer();
 }
 
 playButton.addEventListener("click", newShapeOnThePlayArea);
