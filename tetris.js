@@ -37,6 +37,9 @@ let paused = false;
 let color = null;
 let nextShape = null;
 
+let score = 0;
+let level = 1;
+
 function random_bg_color() {
   let x = Math.floor(Math.random() * 256);
   let y = Math.floor(Math.random() * 256);
@@ -291,7 +294,7 @@ function handleKeyDown(e) {
     moveRight();
   }
   if (e.code === "ArrowUp") {
-    handleArrowUp();
+    rotateShape();
   }
   if (e.code === "ArrowDown") {
     moveDown();
@@ -339,7 +342,7 @@ function canMoveRight() {
   const widthOfTheShape = shape[0].length;
   const heightOfTheShape = shape.length;
 
-  if (currentColumn + widthOfTheShape > 10) {
+  if (currentColumn + widthOfTheShape > 10 || currentRow < 0) {
     return false;
   }
 
@@ -356,8 +359,8 @@ function canMoveRight() {
   return true;
 }
 
-function handleArrowUp() {
-  const positionCount = Object.keys(currentShape).length; //4
+function rotateShape() {
+  const positionCount = Object.keys(currentShape).length;
 
   currentPosition++;
 
@@ -367,8 +370,6 @@ function handleArrowUp() {
 
   copyCurrentShapeToModelArray();
 }
-let score = 0;
-let level = 1;
 
 function moveDown() {
   if (pause) {
@@ -400,14 +401,17 @@ function moveDown() {
       }
     }
     currentShape = nextShape;
+    gameOver();
+
+    log(modelArray);
 
     nextShape = getRandomShape();
     displayInNextBlock();
 
-    currentRow = 0;
+    currentRow = -1;
     currentColumn = 4;
     currentPosition = 1;
-    gameOver();
+    refreshDivArray(modelArray, divArray);
   }
 }
 
@@ -418,7 +422,8 @@ function gameOver() {
 
   for (let i = 0; i < heightOfTheShape.length; i++) {
     for (let j = 0; j < widthOfTheShape[i].length; j++) {
-      if (modelArray[i][currentColumn + j] === "+" && shape[i][j] === "1") {
+      if (modelArray[0][currentColumn + j] === "+" && shape[i][j] === "1") {
+        log(true);
         clearInterval(timerInterval);
         document.getElementById("game-over").style.display = "block";
         document.getElementById("result-level").innerText = level;
