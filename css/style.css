@@ -8,18 +8,24 @@
 
 body {
    font-family: 'Roboto Condensed', Arial, Helvetica sans-serif;
+   font-size: 16px;
    line-height: 1.5;
    font-weight: bold;
    color: aliceblue;
-   padding: 4rem;
+   padding: 4em;
    height: 100vh;
    background: url(../images/background.jpeg) no-repeat 100% 0%/cover;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   
 }
 
 .user-info,
 .mobile-btn,
 #play-area{
-   border: 5px solid rgb(176, 216, 31);
+   border: 0.3em solid rgb(57, 214, 42); 
    background-color: rgb(25, 25, 65);
 }
 
@@ -27,81 +33,98 @@ body {
    position: relative;
    display: flex;
    justify-content: center;
-   height: 100%;
+   height: 42em;
    z-index: 1;
 }
 
+#play-area {
+   max-width: 21.7em;
+   display: inline-flex;
+   flex-wrap: wrap;
+}
+
+.cellStyle {
+   border-left: 0.1em solid;
+   border-bottom: 0.1em solid;
+   border-color: #3cb9eb;
+   width: 2.1em;
+   height: 2.08em;
+   align-content: stretch;
+}
+
+
+.user-info {
+   width: 15em;
+   height: 100%;
+   margin-left: 1em;
+   padding: 0.8em;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+}
+
 .info_tab {
-   border: 3px solid #349da5;
+   border: 0.1em solid #349da5;
    font-size: 1.5em;
    text-transform: uppercase;
    text-align: center;
 }
 
-#next-figure {
-   margin: 5px;
-   width: 161px;
-   display: flex;
-   flex-wrap: wrap;
-   border-top: 0.5px solid #3cb9eb;;
-   border-right: 0.5px solid #3cb9eb;;
-}
-
-#play-area {
-   max-width: 19.8rem;
-   display: inline-flex;
-   flex-wrap: wrap;
-}
-
-.user-info {
-   width: 13rem;
-   height: 100%;
-   margin-left: 1rem;
-   padding: 10px;
-   display: flex;
-   flex-direction: column;
-   justify-content: space-between;
-
-}
-
 .next-shape {
-   border-bottom: 3px solid rgb(176, 216, 31) ;
+   border-bottom: 0.1em solid rgb(176, 216, 31) ;
 }
+
+#next-figure {
+   margin: 0.5em auto;
+   max-width: 7.3em;
+   display: flex;
+   flex-wrap: wrap;
+   border-top: 0.06em solid #3cb9eb;;
+   border-right: 0.06em solid #3cb9eb;;
+}
+
+.nextCellStyle {
+   border-left: 0.06em solid;
+   border-bottom: 0.06em solid;
+   border-color: #3cb9eb;
+   width: 0.9em;
+   height: 0.9em;
+}
+
 
 .level-score {
-   margin-top: 5px;
-   border: 3px solid #349da5;
-   padding: 10px;
-   font-size: 25px;
+   margin-top: 1.3em;
+   border: 0.1em solid #349da5;
+   padding: 0.5em;
+   font-size: 1.5em;
    display: flex;
    justify-content: space-around;
 }
 
 .main_btn {
    flex-direction: column;
-   margin-top: 20px;
+   margin-top: 1.3em;
+   margin-bottom: 1.3em;
 }
 
 .btn {
    background: #9e3573;
    color: rgb(245, 237, 237);
-   border: 2px solid rgb(225, 242, 39);
-   padding: 0.5rem;
-   font-size: 1em;
-   width: 11rem;
+   border: 0.1em solid rgb(225, 242, 39);
+   padding: 0.5em;
+   font-size: 1.1em;
+   width: 11.8em;
    font-weight: bold;
    text-transform: uppercase;
    border-radius: 10px;
    align-self: center;
-   margin-top: 0.5rem;
-   margin-bottom: 0.5rem;
-   transform: 0.25s;
+   margin-top: 0.5em;
+   margin-bottom: 0.5em;
 }
 
 .btn:hover{
    border-color: #f1ff5c;
    box-shadow: 0 0.5em 0.5em -0.4em #f1ff5c;
-   transform:  translateY(-0.25em);
    cursor: pointer;
 }
 
@@ -109,7 +132,7 @@ body {
    text-transform: uppercase;
    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
    color: rgb(200, 223, 223);
-   margin-bottom: 2rem;
+   margin-bottom: 2em;
    text-align: center;
 }
 
@@ -121,18 +144,13 @@ body {
 .logo a{
    text-decoration: none;
    color: rgb(192, 190, 95);
-   margin-bottom: 1rem;
 }
 
 .logo span {
-   font-size: 1.5rem;
+   font-size: 1.5em;
    background: linear-gradient(to bottom, #b92b27, #1565c0);
-   width: 5.5rem;
+   width: 5.5em;
    border-radius: 5px;
-}
-
-.info_btn {
-   justify-content: space-between;
 }
 
 #game-over {
@@ -152,25 +170,25 @@ body {
 }
 
 #game-over h2 {
-   font-size: 4rem;
+   font-size: 4em;
    font-style: italic;
    color: #82cd39;
-   margin-bottom: 5px;
+   margin-bottom: 5em;
 }
 
 #game-over span {
-   font-size: 2rem;
+   font-size: 2em;
    color: #98dc21;
-   margin-bottom: 20px;
+   margin-bottom: 20em;
 }
 
 #game-over button {
-   width: 7rem;
-   border: 1px solid white;
-   padding: 10px 30px;
+   width: 7em;
+   border: 1em solid white;
+   padding: 10em 30em;
    background-color: #818D23;
    color: #2123dc;
-   border-radius: 9px;
+   border-radius: 9em;
 }
 
 #game-over button:hover {
@@ -178,40 +196,43 @@ body {
 }
 
 .result {
-   width: 14rem;
-   font-size: 24px;
-   margin-bottom: 20px;
+   width: 14em;
+   font-size: 24em;
+   margin-bottom: 20em;
+}
+.info_btn {
+   justify-content: space-between;
 }
 
 .mobile-btn {
-   max-width: 22.5rem;
-   padding: 1rem;
-   margin-top: 0.3rem;
+   max-width: 22.5em;
+   padding: 1em;
+   margin-top: 0.3em;
    display: none;
 }
 
 .arrows {
-   margin-bottom: 1.5rem;
+   margin-bottom: 0.1em;
 }
 
 .arrow_btn img {
-   width: 2rem;
-   height: 2rem;
+   width: 0.1em;
+   height: 0.1em;
 }
 
 .arrow_btn {
    background: rgb(164, 35, 123);
    color: rgb(245, 237, 237);
-   border: 2px solid rgb(225, 242, 39);
-   padding: 0.5rem;
+   border: 0.1em solid rgb(225, 242, 39);
+   padding: 0.5em;
    border-radius: 10px;
    display: block;
 }
 
 .arrow_btn:active {
    background-color: rgb(246, 244, 81);
-  box-shadow: 3px 6px 10px #c346dc;
-  transform: translate(2px);
+  box-shadow: 0.1em 0.2em 1em #c346dc;
+  transform: translate(0.1em);
 }
 
 .other_arrows {
@@ -220,21 +241,4 @@ body {
 
 .up_arrow {
    margin: 0 auto;
-}
-
-.cellStyle {
-   border-left: 1px solid;
-   border-bottom: 1px solid;
-   border-color: #3cb9eb;
-   width: 30.6px;
-   height: 30.6px;
-   align-content: stretch;
-}
-
-.nextCellStyle {
-   border-left: 0.5px solid;
-   border-bottom: 0.5px solid;
-   border-color: #3cb9eb;
-   width: 20px;
-   height: 20px;
 }

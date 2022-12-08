@@ -224,6 +224,8 @@ function refreshDivArray(array, arrayDiv) {
         arrayDiv[i][j].style.background = color;
       } else if (array[i][j] === "+") {
         arrayDiv[i][j].style.background = "rgb(164, 35, 123)";
+      } else if (array[i][j] === "Shadow") {
+        arrayDiv[i][j].style.background = "#777696";
       } else {
         arrayDiv[i][j].style.background = color;
       }
@@ -257,6 +259,55 @@ function displayInNextBlock() {
   return modelArrayNextShape;
 }
 
+function doProjection() {
+  let startRow = getProjectionRow();
+
+  const shape = currentShape[currentPosition];
+  const widthOfTheShape = shape[0].length;
+  const heightOfTheShape = shape.length;
+
+  for (let i = 0; i < heightOfTheShape; i++) {
+    for (let j = 0; j < widthOfTheShape; j++) {
+      log(startRow + i + " startRow + i");
+      log(currentColumn + j + " currentColumn + j");
+      if (
+        modelArray[startRow + i][currentColumn + j] === "" &&
+        shape[i][j] === 1
+      ) {
+        modelArray[startRow + i][currentColumn + j] = "Shadow";
+      }
+    }
+  }
+}
+
+function getProjectionRow() {
+  for (let i = currentRow; i < modelArray.length; i++) {
+    log(hasProjectionCollision() + " hasProjectionCollision");
+    if (hasProjectionCollision(i)) {
+      log(i + " startRow iz funcii");
+      return i - 1;
+    }
+  }
+}
+
+function hasProjectionCollision(row) {
+  const shape = currentShape[currentPosition];
+  const widthOfTheShape = shape[0].length;
+  const heightOfTheShape = shape.length;
+
+  for (let i = 0; i < heightOfTheShape; i++) {
+    for (let j = 0; j < widthOfTheShape; j++) {
+      if (
+        modelArray[row + i] === undefined ||
+        (shape[i][j] === 1 && modelArray[row + i][currentColumn + j] === "+")
+      ) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 function copyCurrentShapeToModelArray() {
   cleanArray(modelArray);
 
@@ -276,6 +327,7 @@ function copyCurrentShapeToModelArray() {
       }
     }
   }
+  doProjection();
   refreshDivArray(modelArray, divArray);
 }
 
@@ -401,7 +453,7 @@ function moveDown() {
       }
     }
     currentShape = nextShape;
-    gameOver();
+    // gameOver();
 
     log(modelArray);
 
@@ -422,8 +474,7 @@ function gameOver() {
 
   for (let i = 0; i < heightOfTheShape.length; i++) {
     for (let j = 0; j < widthOfTheShape[i].length; j++) {
-      if (modelArray[0][currentColumn + j] === "+" && shape[i][j] === "1") {
-        log(true);
+      if (modelArray[i][currentColumn + j] === "+" && shape[i][j] === "1") {
         clearInterval(timerInterval);
         document.getElementById("game-over").style.display = "block";
         document.getElementById("result-level").innerText = level;
@@ -446,7 +497,7 @@ function canMoveDown() {
     for (let j = 0; j < widthOfTheShape; j++) {
       if (
         shape[i][j] == 1 &&
-        modelArray[currentRow + i + 1][currentColumn + j] == "+"
+        modelArray[currentRow + i + 1][currentColumn + j] === "+"
       ) {
         return false;
       }

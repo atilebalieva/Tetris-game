@@ -1,32 +1,19 @@
 @media only screen and (max-width: 992px) {
-   .info_tab {
-      font-size: 1.3em;
-   }
-
-   .level_block {
-      width: 9rem;
-   }
    
 }
-@media only screen and (max-width: 768px) {
-   .btn {
-      width: 11rem;
-   }
-   
-}
-
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 740px) {
    body {
-      flex-direction: column;
-      margin: 2rem;
+      font-size: 14px;
+   }
+}
+
+/* @media only screen and (max-width: 700px) {
+   body {
+      font-size: 14px;
    }
 
    #play-area {
       max-width: 22.5rem;
-   }
-
-   aside {
-      display: none;
    }
 
    .mobile-btn {
@@ -37,11 +24,11 @@
       width: 9rem;
    }
 
-}
+} */
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 620px) {
    body {
-      margin: 1rem;
+      font-size: 12px;
    }
 
 }
