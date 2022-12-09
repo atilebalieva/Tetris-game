@@ -2,26 +2,12 @@ function log(func) {
   console.log(func);
 }
 
-function pa(arr, str) {
-  if (str != undefined) console.log(str + ": ");
-
-  for (let i = 0; i < arr.length; i++) {
-    let s = "";
-    for (let j = 0; j < arr[i].length; j++) {
-      if (arr[i][j] === "" || arr[i][j] === " ") {
-        s += "_ ";
-      } else {
-        s += arr[i][j] + " ";
-      }
-    }
-    console.log(s);
-  }
-}
-
 const playArea = document.getElementById("play-area");
 const defaultColor = "rgb(25, 25, 65)";
 const playButton = document.getElementById("play-button");
 const pauseButton = document.getElementById("pause-button");
+const mobilePlayBtn = document.getElementById("control-play-button");
+const mobilePauseBtn = document.getElementById("control-pause-button");
 const nextBlock = document.getElementById("next-figure");
 let pause = false;
 
@@ -142,7 +128,6 @@ const allShapes = {
   },
 };
 
-////////////////////// Create cells on the page/////////////////////////////////////////
 const modelArray = [
   ["", "", "", "", "", "", "", "", "", ""],
   ["", "", "", "", "", "", "", "", "", ""],
@@ -209,10 +194,6 @@ function createArrayNextShape() {
   }
 }
 createArrayNextShape();
-
-///////////////////////////////////////////////////////////////////////////
-
-pauseButton.addEventListener("click", () => (pause = !pause));
 
 function refreshDivArray(array, arrayDiv) {
   for (let i = 0; i < array.length; i++) {
@@ -328,6 +309,26 @@ function copyCurrentShapeToModelArray() {
   }
   doProjection();
   refreshDivArray(modelArray, divArray);
+}
+
+function gameOver() {
+  const shape = currentShape[currentPosition];
+
+  const widthOfTheShape = shape[0].length;
+  const heightOfTheShape = shape.length;
+
+  for (let i = 0; i < heightOfTheShape; i++) {
+    for (let j = 0; j < widthOfTheShape; j++) {
+      if (modelArray[i][currentColumn + j] === "+" && shape[i][j] === 1) {
+        clearInterval(timerInterval);
+        document.getElementById("game-over").style.display = "block";
+        document.getElementById("result-level").innerText = level;
+        document.getElementById("result-score").innerText = score;
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 window.addEventListener("keydown", (e) => {
@@ -467,26 +468,6 @@ function moveDown() {
   }
 }
 
-function gameOver() {
-  const shape = currentShape[currentPosition];
-
-  const widthOfTheShape = shape[0].length;
-  const heightOfTheShape = shape.length;
-
-  for (let i = 0; i < heightOfTheShape; i++) {
-    for (let j = 0; j < widthOfTheShape; j++) {
-      if (modelArray[i][currentColumn + j] === "+" && shape[i][j] === 1) {
-        clearInterval(timerInterval);
-        document.getElementById("game-over").style.display = "block";
-        document.getElementById("result-level").innerText = level;
-        document.getElementById("result-score").innerText = score;
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
 function canMoveDown() {
   const shape = currentShape[currentPosition];
   const widthOfTheShape = shape[0].length;
@@ -549,3 +530,25 @@ function newShapeOnThePlayArea() {
 }
 
 playButton.addEventListener("click", newShapeOnThePlayArea);
+mobilePlayBtn.addEventListener("click", newShapeOnThePlayArea);
+
+pauseButton.addEventListener("click", () => (pause = !pause));
+mobilePauseBtn.addEventListener("click", () => (pause = !pause));
+
+const leftButton = document.getElementById("arrow-left");
+const rightButton = document.getElementById("arrow-right");
+const upButton = document.getElementById("arrow-up");
+const downButton = document.getElementById("arrow-down");
+
+leftButton.addEventListener("click", () => {
+  moveLeft();
+});
+rightButton.addEventListener("click", () => {
+  moveRight();
+});
+upButton.addEventListener("click", () => {
+  rotateShape();
+});
+downButton.addEventListener("click", () => {
+  moveDown();
+});
