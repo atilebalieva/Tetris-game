@@ -225,7 +225,7 @@ function refreshDivArray(array, arrayDiv) {
       } else if (array[i][j] === "+") {
         arrayDiv[i][j].style.background = "rgb(164, 35, 123)";
       } else if (array[i][j] === "Shadow") {
-        arrayDiv[i][j].style.background = "#777696";
+        arrayDiv[i][j].style.background = "rgb(100, 93, 127)";
       } else {
         arrayDiv[i][j].style.background = color;
       }
@@ -250,7 +250,7 @@ function displayInNextBlock() {
 
   for (let i = 0; i < shape.length; i++) {
     for (let j = 0; j < shape[i].length; j++) {
-      if (shape[i][j] == "1") {
+      if (shape[i][j] === 1) {
         modelArrayNextShape[1 + i][3 + j] = 1;
       }
     }
@@ -261,15 +261,12 @@ function displayInNextBlock() {
 
 function doProjection() {
   let startRow = getProjectionRow();
-
   const shape = currentShape[currentPosition];
   const widthOfTheShape = shape[0].length;
   const heightOfTheShape = shape.length;
 
   for (let i = 0; i < heightOfTheShape; i++) {
     for (let j = 0; j < widthOfTheShape; j++) {
-      log(startRow + i + " startRow + i");
-      log(currentColumn + j + " currentColumn + j");
       if (
         modelArray[startRow + i][currentColumn + j] === "" &&
         shape[i][j] === 1
@@ -282,18 +279,20 @@ function doProjection() {
 
 function getProjectionRow() {
   for (let i = currentRow; i < modelArray.length; i++) {
-    log(hasProjectionCollision() + " hasProjectionCollision");
     if (hasProjectionCollision(i)) {
-      log(i + " startRow iz funcii");
       return i - 1;
     }
   }
+  const shape = currentShape[currentPosition];
+  const heightOfTheShape = shape.length;
+
+  return modelArray.length - heightOfTheShape;
 }
 
 function hasProjectionCollision(row) {
   const shape = currentShape[currentPosition];
   const widthOfTheShape = shape[0].length;
-  const heightOfTheShape = shape.length;
+  const heightOfTheShape = shape.length; //4
 
   for (let i = 0; i < heightOfTheShape; i++) {
     for (let j = 0; j < widthOfTheShape; j++) {
@@ -372,8 +371,8 @@ function canMoveLeft() {
   for (let i = 0; i < heightOfTheShape; i++) {
     for (let j = 0; j < widthOfTheShape; j++) {
       if (
-        shape[i][j] == 1 &&
-        modelArray[currentRow + i][currentColumn + j - 1] == "+"
+        shape[i][j] === 1 &&
+        modelArray[currentRow + i][currentColumn + j - 1] === "+"
       ) {
         return false;
       }
@@ -401,8 +400,8 @@ function canMoveRight() {
   for (let i = 0; i < heightOfTheShape; i++) {
     for (let j = 0; j < widthOfTheShape; j++) {
       if (
-        shape[i][j] == 1 &&
-        modelArray[currentRow + i][currentColumn + j + 1] == "+"
+        shape[i][j] === 1 &&
+        modelArray[currentRow + i][currentColumn + j + 1] === "+"
       ) {
         return false;
       }
@@ -416,7 +415,7 @@ function rotateShape() {
 
   currentPosition++;
 
-  if (currentPosition > positionCount) {
+  if (currentPosition > positionCount || positionCount === 1) {
     currentPosition = 1;
   }
 
@@ -452,36 +451,40 @@ function moveDown() {
         document.getElementById("level").innerText = level;
       }
     }
+    currentRow = -1;
+    currentColumn = 4;
+    currentPosition = 1;
     currentShape = nextShape;
-    // gameOver();
 
-    log(modelArray);
+    if (gameOver()) {
+      return;
+    }
 
     nextShape = getRandomShape();
     displayInNextBlock();
 
-    currentRow = -1;
-    currentColumn = 4;
-    currentPosition = 1;
     refreshDivArray(modelArray, divArray);
   }
 }
 
 function gameOver() {
   const shape = currentShape[currentPosition];
+
   const widthOfTheShape = shape[0].length;
   const heightOfTheShape = shape.length;
 
-  for (let i = 0; i < heightOfTheShape.length; i++) {
-    for (let j = 0; j < widthOfTheShape[i].length; j++) {
-      if (modelArray[i][currentColumn + j] === "+" && shape[i][j] === "1") {
+  for (let i = 0; i < heightOfTheShape; i++) {
+    for (let j = 0; j < widthOfTheShape; j++) {
+      if (modelArray[i][currentColumn + j] === "+" && shape[i][j] === 1) {
         clearInterval(timerInterval);
         document.getElementById("game-over").style.display = "block";
         document.getElementById("result-level").innerText = level;
         document.getElementById("result-score").innerText = score;
+        return true;
       }
     }
   }
+  return false;
 }
 
 function canMoveDown() {

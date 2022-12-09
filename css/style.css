@@ -206,9 +206,16 @@ body {
 
 .mobile-btn {
    max-width: 22.5em;
+   height: 16em;
    padding: 1em;
    margin-top: 0.3em;
    display: none;
+}
+
+.game-control-btn {
+display: flex;
+justify-content: space-around;
+margin-bottom: 1em;
 }
 
 .arrows {
@@ -216,15 +223,15 @@ body {
 }
 
 .arrow_btn img {
-   width: 0.1em;
-   height: 0.1em;
+   width: 1.5em;
+   height: 1.5em;
 }
 
 .arrow_btn {
    background: rgb(164, 35, 123);
    color: rgb(245, 237, 237);
    border: 0.1em solid rgb(225, 242, 39);
-   padding: 0.5em;
+   padding: 0.7em;
    border-radius: 10px;
    display: block;
 }
@@ -235,10 +242,19 @@ body {
   transform: translate(0.1em);
 }
 
-.other_arrows {
-   justify-content: center;
-}
-
 .up_arrow {
    margin: 0 auto;
+}
+
+.other_arrows {
+   display: flex;
+   justify-content: center;
+   position: relative;
+   gap: 5em;
+}
+
+.down-arrow-btn {
+   position: absolute;
+   bottom: -100%;
+   left: 42%;
 }
