@@ -77,13 +77,14 @@
 
 @media only screen and (max-width: 400px) {
    body {
-      font-size: 11px;
+      font-size: 9px;
    }
 }
 
-@media only screen and (max-width: 375px) {
+@media only screen and (max-width: 380px) {
    body {
       font-size: 8.5px;
    }
 }
+
 
