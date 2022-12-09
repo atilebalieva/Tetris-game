@@ -19,7 +19,6 @@
       left: 0%;
    }
 
-
 #next-figure {
    margin: 0.4em 0.2em 0.2em;
 }
@@ -28,6 +27,7 @@
    margin-top: 0.9em;
    padding: 0.8em;
    font-size: 1.3em;
+   justify-content: space-between;
 }
 
 .main_btn {
