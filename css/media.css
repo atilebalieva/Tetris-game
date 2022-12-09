@@ -63,26 +63,10 @@
    }
 }
 
-/* @media only screen and (max-width: 700px) {
+
+@media only screen and (max-width: 400px) {
    body {
-      font-size: 14px;
+      font-size: 8px;
    }
-
-   #play-area {
-      max-width: 22.5rem;
-   }
-
-
-
-   .btn {
-      width: 9rem;
-   }
-
-} */
-
-@media only screen and (max-width: 620px) {
-   body {
-      font-size: 12px;
-   }
-
 }
+
