@@ -57,31 +57,25 @@
    }
 }
 
-@media only screen and (max-width: 540px) {
-   body {
-      font-size: 9px;
-   }
-}
-
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 650px) {
    body {
       font-size: 12px;
    }
 }
 
-@media only screen and (max-width: 420px) {
+@media only screen and (max-width: 570px) {
    body {
-      font-size: 11.5px;
+      font-size: 11px;
    }
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 450px) {
    body {
-      font-size: 9px;
+      font-size: 10px;
    }
 }
 
-@media only screen and (max-width: 380px) {
+@media only screen and (max-width: 410px) {
    body {
       font-size: 8.5px;
    }
