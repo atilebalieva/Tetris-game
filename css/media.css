@@ -1,77 +1,103 @@
 @media only screen and (max-width: 840px) {
-   body {
-      font-size: 15px;
-   }
-   .content {
-      display: block;
+
+   /* .logo{
+      display: none;
    }
 
    .user-info {
-      width: 21.7em;
-      height: 13em;
-      margin-left: 0;
-      padding: 0.2em;
-      display: flex;
-      flex-direction:row;
-      justify-content: space-evenly;
-      position: absolute;
-      top: -32%;
-      left: 0%;
+      justify-content: flex-start;
    }
 
-#next-figure {
-   margin: 0.4em 0.2em 0.2em;
+   .level-score {
+      margin-top: 0.3em;
+      margin-bottom: 0.3em;
+   }
+
+   .main_btn {
+      margin-top: 0.1em;
+      margin-bottom: 0em;
+   }
+
+   .arrows {
+      display: block;
+      position: absolute;
+      top: 73%;
+      right: 48%;
+   }
+
+   .down-arrow-btn {
+      left: 36%;
+  } */
+
+  body {
+   font-size: 12px;
 }
 
-.level-score {
-   margin-top: 0.9em;
-   padding: 0.8em;
-   font-size: 1.3em;
-   justify-content: space-between;
-}
-
-.main_btn {
-   display: none;
-}
-
-.logo {
-   display: none;
-}
-
-.mobile-btn {
+.content {
    display: block;
 }
 
+.user-info {
+   width: 21.7em;
+   height: 13em;
+   margin-left: 0;
+   padding: 0.2em;
+   display: flex;
+   flex-direction:row;
+   justify-content: space-evenly;
+   position: absolute;
+   top: -32%;
+   left: 0%;
+}
+
+#next-figure {
+margin: 0.4em 0.2em 0.2em;
+}
+
+.level-score {
+margin-top: 0.9em;
+padding: 0.8em;
+font-size: 1.3em;
+justify-content: space-between;
+}
+
+.main_btn {
+display: none;
+}
+
+.logo {
+display: none;
+}
+
+.mobile-btn {
+display: block;
+}
+
 .btn {
-   padding: 0.5em;
-   font-size: 1em;
-   width: 8em;
-   margin-top: 0;
-}
-   
+padding: 0.5em;
+font-size: 1em;
+width: 8em;
+margin-top: 0;
 }
 
-@media only screen and (max-width: 770px) {
-   body {
-      font-size: 13px;
-   }
 }
 
-@media only screen and (max-width: 650px) {
-   body {
-      font-size: 12px;
-   }
-}
-
-@media only screen and (max-width: 570px) {
+@media only screen and (max-width: 768px) {
    body {
       font-size: 11px;
    }
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 580px) {
    body {
       font-size: 10px;
+   }
+}
+
+/* Mobile devices */
+@media only screen and (max-width: 480px) {
+   body {
+      font-size: 9px;
    }
 }
 
@@ -80,5 +106,23 @@
       font-size: 8px;
    }
 }
+
+@media only screen and (max-width: 375px) {
+   body {
+      font-size: 7.5px;
+   }
+}
+
+@media only screen and (max-width: 320px) {
+   body {
+      font-size: 7px;
+   }
+}
+
+/* home work for me:
+do not forget to
+try make arrows on iPads, Tablets
+*/
+
 
 
