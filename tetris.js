@@ -354,6 +354,10 @@ function handleKeyDown(e) {
 }
 
 function moveLeft() {
+  if (pause) {
+    return;
+  }
+
   if (canMoveLeft()) {
     currentColumn--;
     copyCurrentShapeToModelArray();
@@ -383,6 +387,10 @@ function canMoveLeft() {
 }
 
 function moveRight() {
+  if (pause) {
+    return;
+  }
+
   if (canMoveRight()) {
     currentColumn++;
     copyCurrentShapeToModelArray();
@@ -412,6 +420,9 @@ function canMoveRight() {
 }
 
 function rotateShape() {
+  if (pause) {
+    return;
+  }
   const positionCount = Object.keys(currentShape).length;
 
   currentPosition++;
@@ -521,12 +532,10 @@ function handleTimer() {
     timerInterval = setInterval(moveDown, 1000);
   }
 }
-
+newShape();
 function newShapeOnThePlayArea() {
-  newShape();
-  copyCurrentShapeToModelArray();
-  displayInNextBlock();
   handleTimer();
+  displayInNextBlock();
 }
 
 playButton.addEventListener("click", newShapeOnThePlayArea);
@@ -552,3 +561,29 @@ upButton.addEventListener("click", () => {
 downButton.addEventListener("click", () => {
   moveDown();
 });
+
+function cleanPlayArea() {
+  for (let i = 0; i < modelArray.length; i++) {
+    for (let j = 0; j < modelArray[i].length; j++) {
+      modelArray[i][j] = "";
+      divArray[i][j].style.background = defaultColor;
+    }
+  }
+}
+
+function cleanNextShapeArea() {
+  for (let i = 0; i < modelArrayNextShape.length; i++) {
+    for (let j = 0; j < modelArrayNextShape[i].length; j++) {
+      modelArrayNextShape[i][j] = "";
+      nextShapeArr[i][j].style.background = defaultColor;
+    }
+  }
+}
+
+//homeWork for me:
+// need to work with OK button
+// document.getElementById("ok-button").addEventListener("click", () => {
+//   cleanPlayArea();
+//   cleanNextShapeArea();
+//   document.getElementById("game-over").style.display = "none";
+// });

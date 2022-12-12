@@ -160,45 +160,51 @@ body {
    left: 0;
    z-index: 10;
    font-family: 'Black Ops One', cursive,'Playfair Display', serif;
+   height: 100%;
+   width: 100%;
+   display: none;
+}
+
+.game-over-block {
    display: flex;
    flex-direction: column;
    justify-content: center;
    align-items: center;
    height: 100%;
    width: 100%;
-   display: none;
 }
 
 #game-over h2 {
-   font-size: 4em;
+   font-size: 5em;
    font-style: italic;
    color: #82cd39;
-   margin-bottom: 5em;
 }
 
 #game-over span {
+   font-style: italic;
    font-size: 2em;
    color: #98dc21;
-   margin-bottom: 20em;
 }
 
 #game-over button {
+   margin-top: 1em;
    width: 7em;
-   border: 1em solid white;
-   padding: 10em 30em;
-   background-color: #818D23;
-   color: #2123dc;
-   border-radius: 9em;
+   border: 0.1em solid #5412a0;
+   padding: 1em 1em;
+   background-color: #2164c9;
+   color: white;
+   border-radius: 10px;
 }
 
 #game-over button:hover {
    background-color: #d9f626;
+   color: #2164c9;
 }
 
 .result {
    width: 14em;
-   font-size: 24em;
-   margin-bottom: 20em;
+   font-size: 1em;
+   margin-bottom: 1em;
 }
 .info_btn {
    justify-content: space-between;
